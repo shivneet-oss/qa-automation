@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f6f8;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 400px;
+      padding: 32px;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      margin-bottom: 8px;
+      color: #1f2937;
+    }
+
+    p.subtitle {
+      color: #6b7280;
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 6px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      background: #2563eb;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    .link-button {
+      display: inline-block;
+      margin-top: 16px;
+      background: none;
+      border: none;
+      color: #2563eb;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      width: auto;
+    }
+
+    .link-button:hover {
+      background: none;
+      text-decoration: underline;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .message {
+      display: none;
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+
+    .message.success {
+      display: block;
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .message.error {
+      display: block;
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <div id="login-view">
+      <h1>Login</h1>
+      <p class="subtitle">Enter your credentials to continue.</p>
+
+      <form id="login-form">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" autocomplete="username" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" autocomplete="current-password" required>
+
+        <button type="submit">Login</button>
+      </form>
+
+      <button type="button" class="link-button" id="show-forgot-password">Forgot password?</button>
+      <div id="login-message" class="message" role="alert"></div>
+    </div>
+
+    <div id="forgot-password-view" class="hidden">
+      <h1>Forgot Password</h1>
+      <p class="subtitle">Enter your email address and we will send you a reset link.</p>
+
+      <form id="forgot-password-form" novalidate>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" autocomplete="email">
+
+        <button type="submit">Send Reset Link</button>
+      </form>
+
+      <button type="button" class="link-button" id="show-login">Back to login</button>
+      <div id="forgot-message" class="message" role="alert"></div>
+    </div>
+  </div>
+
+  <script>
+    const VALID_USERNAME = "admin";
+    const VALID_PASSWORD = "test123";
+
+    const loginView = document.getElementById("login-view");
+    const forgotPasswordView = document.getElementById("forgot-password-view");
+    const loginForm = document.getElementById("login-form");
+    const forgotPasswordForm = document.getElementById("forgot-password-form");
+    const loginMessage = document.getElementById("login-message");
+    const forgotMessage = document.getElementById("forgot-message");
+
+    function showMessage(element, text, type) {
+      element.className = "message";
+      element.textContent = text;
+      element.classList.add(type);
+    }
+
+    function clearMessage(element) {
+      element.className = "message";
+      element.textContent = "";
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    document.getElementById("show-forgot-password").addEventListener("click", function () {
+      loginView.classList.add("hidden");
+      forgotPasswordView.classList.remove("hidden");
+      clearMessage(loginMessage);
+      clearMessage(forgotMessage);
+    });
+
+    document.getElementById("show-login").addEventListener("click", function () {
+      forgotPasswordView.classList.add("hidden");
+      loginView.classList.remove("hidden");
+      clearMessage(loginMessage);
+      clearMessage(forgotMessage);
+      forgotPasswordForm.reset();
+    });
+
+    loginForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value;
+
+      clearMessage(loginMessage);
+
+      if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+        showMessage(loginMessage, "Login successful! Welcome, admin.", "success");
+      } else {
+        showMessage(
+          loginMessage,
+          "Invalid username or password. Please try again.",
+          "error"
+        );
+      }
+    });
+
+    forgotPasswordForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+
+      clearMessage(forgotMessage);
+
+      if (!email) {
+        showMessage(forgotMessage, "Email is required", "error");
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        showMessage(forgotMessage, "Enter a valid email address", "error");
+        return;
+      }
+
+      const confirmationMessage =
+        "If an account exists for this email, a password reset link has been sent.";
+
+      showMessage(forgotMessage, confirmationMessage, "success");
+    });
+  </script>
+</body>
+</html>

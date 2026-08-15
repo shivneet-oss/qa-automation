@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Execution Report</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, Helvetica, sans-serif; background: #f4f6f8; color: #1f2937; padding: 30px; }
+        .header { background: #1e3a5f; color: white; padding: 24px 32px; border-radius: 10px; margin-bottom: 24px; }
+        .header h1 { font-size: 1.8rem; margin-bottom: 6px; }
+        .header p { font-size: 0.9rem; opacity: 0.8; }
+        .summary { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+        .card { background: white; border-radius: 10px; padding: 20px 28px; flex: 1; min-width: 140px;
+                 box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center; }
+        .card .number { font-size: 2.2rem; font-weight: 700; margin-bottom: 4px; }
+        .card .label { font-size: 0.85rem; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; }
+        .card.pass .number { color: #059669; }
+        .card.fail .number { color: #dc2626; }
+        .card.skipped .number { color: #d97706; }
+        .card.total .number { color: #2563eb; }
+        .card.rate .number { color: #7c3aed; }
+        table { width: 100%; border-collapse: collapse; background: white;
+                 border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        thead { background: #1e3a5f; color: white; }
+        th { padding: 14px 16px; text-align: left; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        td { padding: 14px 16px; border-bottom: 1px solid #f3f4f6; font-size: 0.9rem; vertical-align: top; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #f9fafb; }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
+        .badge.pass { background: #d1fae5; color: #065f46; }
+        .badge.fail { background: #fee2e2; color: #991b1b; }
+        .badge.skipped { background: #fef3c7; color: #92400e; }
+        .priority { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; }
+        .priority.high { background: #fee2e2; color: #991b1b; }
+        .priority.medium { background: #fef3c7; color: #92400e; }
+        .priority.low { background: #d1fae5; color: #065f46; }
+        .footer { text-align: center; margin-top: 24px; font-size: 0.85rem; color: #9ca3af; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧪 Test Execution Report</h1>
+        <p>Application: Login App &nbsp;|&nbsp; Executed: 06 July 2026, 06:35 PM &nbsp;|&nbsp; Tool: Playwright + Python</p>
+    </div>
+ 
+    <div class="summary">
+        <div class="card total"><div class="number">10</div><div class="label">Total</div></div>
+        <div class="card pass"><div class="number">8</div><div class="label">Passed</div></div>
+        <div class="card fail"><div class="number">2</div><div class="label">Failed</div></div>
+        <div class="card skipped"><div class="number">0</div><div class="label">Skipped</div></div>
+        <div class="card rate"><div class="number">80%</div><div class="label">Pass Rate</div></div>
+    </div>
+ 
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Test Case ID</th>
+                <th>Description</th>
+                <th>Expected Result</th>
+                <th>Actual Result</th>
+                <th>Priority</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        <tr>
+            <td>1</td>
+            <td><strong>TC-LOGIN-001</strong></td>
+            <td>Log in with valid username and password</td>
+            <td>User is redirected to the dashboard and a welcome message is displayed.</td>
+            <td>Login successful! Welcome, admin.</td>
+            <td><span class="priority high">High</span></td>
+            <td><span class="badge pass">PASS</span></td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td><strong>TC-LOGIN-002</strong></td>
+            <td>Log in with an incorrect password</td>
+            <td>Login fails and an error message 'Invalid username or password' is shown.</td>
+            <td>Invalid username or password. Please try again.</td>
+            <td><span class="priority high">High</span></td>
+            <td><span class="badge pass">PASS</span></td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td><strong>TC-LOGIN-003</strong></td>
+            <td>Log in with an empty username field</td>
+            <td>Login is blocked and a validation message 'Username is required' is shown.</td>
+            <td>Login blocked by browser validation on empty username.</td>
+            <td><span class="priority medium">Medium</span></td>
+            <td><span class="badge pass">PASS</span></td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td><strong>TC-LOGIN-004</strong></td>
+            <td>Log in with an empty password field</td>
+            <td>Login is blocked and a validation message 'Password is required' is shown.</td>
+            <td>Login blocked by browser validation on empty password.</td>
+            <td><span class="priority medium">Medium</span></td>
+            <td><span class="badge pass">PASS</span></td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td><strong>TC-LOGIN-005</strong></td>
+            <td>Log in with a locked account after multiple failed attempts</td>
+            <td>Login is denied and an error message 'Account is locked. Try again later.' is shown.</td>
+            <td>Invalid username or password. Please try again.</td>
+            <td><span class="priority low">Low</span></td>
+            <td><span class="badge fail">FAIL</span></td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td><strong>TC-FORGOT-001</strong></td>
+            <td>Request password reset with a valid registered email address</td>
+            <td>A confirmation message is shown and a password reset link is sent to the email.</td>
+            <td>If an account exists for this email, a password reset link has been sent.</td>
+            <td><span class="priority high">High</span></td>
+            <td><span class="badge pass">PASS</span></td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td><strong>TC-FORGOT-002</strong></td>
+            <td>Request password reset with an unregistered email address</td>
+            <td>A generic confirmation message is shown without revealing whether the email exists.</td>
+            <td>If an account exists for this email, a password reset link has been sent.</td>
+            <td><span class="priority high">High</span></td>
+            <td><span class="badge pass">PASS</span></td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td><strong>TC-FORGOT-003</strong></td>
+            <td>Request password reset with an empty email field</td>
+            <td>Request is blocked and a validation message 'Email is required' is shown.</td>
+            <td>Email is required</td>
+            <td><span class="priority medium">Medium</span></td>
+            <td><span class="badge pass">PASS</span></td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td><strong>TC-FORGOT-004</strong></td>
+            <td>Request password reset with an invalid email format</td>
+            <td>Request is blocked and a validation message 'Enter a valid email address' is shown.</td>
+            <td>Enter a valid email address</td>
+            <td><span class="priority medium">Medium</span></td>
+            <td><span class="badge pass">PASS</span></td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td><strong>TC-FORGOT-005</strong></td>
+            <td>Reset password using an expired reset link</td>
+            <td>Reset fails and an error message 'This reset link has expired' is shown.</td>
+            <td>Expired reset link flow is not implemented in login_app.html.</td>
+            <td><span class="priority low">Low</span></td>
+            <td><span class="badge fail">FAIL</span></td>
+        </tr>
+        </tbody>
+    </table>
+ 
+    <div class="footer">
+        <p>Generated automatically by QA Automation Suite &copy; 2026</p>
+    </div>
+</body>
+</html>

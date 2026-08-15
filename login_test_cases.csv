@@ -1,0 +1,11 @@
+Test Case ID,Description,Expected Result,Priority,Status
+TC-LOGIN-001,Log in with valid username and password,User is redirected to the dashboard and a welcome message is displayed.,High,Pass
+TC-LOGIN-002,Log in with an incorrect password,Login fails and an error message 'Invalid username or password' is shown.,High,Pass
+TC-LOGIN-003,Log in with an empty username field,Login is blocked and a validation message 'Username is required' is shown.,Medium,Pass
+TC-LOGIN-004,Log in with an empty password field,Login is blocked and a validation message 'Password is required' is shown.,Medium,Pass
+TC-LOGIN-005,Log in with a locked account after multiple failed attempts,Login is denied and an error message 'Account is locked. Try again later.' is shown.,Low,Fail
+TC-FORGOT-001,Request password reset with a valid registered email address,A confirmation message is shown and a password reset link is sent to the email.,High,Pass
+TC-FORGOT-002,Request password reset with an unregistered email address,A generic confirmation message is shown without revealing whether the email exists.,High,Pass
+TC-FORGOT-003,Request password reset with an empty email field,Request is blocked and a validation message 'Email is required' is shown.,Medium,Pass
+TC-FORGOT-004,Request password reset with an invalid email format,Request is blocked and a validation message 'Enter a valid email address' is shown.,Medium,Pass
+TC-FORGOT-005,Reset password using an expired reset link,Reset fails and an error message 'This reset link has expired' is shown.,Low,Fail
