@@ -355,7 +355,7 @@ def main() -> int:
     results: list[TestResult] = []
  
     with sync_playwright() as playwright:
-        browser = playwright.chromium.launch(headless=False, slow_mo=1000)
+        browser = playwright.chromium.launch(headless=True if __import__('os').getenv('CI') else False, slow_mo=0 if __import__('os').getenv('CI') else 1000)
         page = browser.new_page()
  
         for test_case in test_cases:
