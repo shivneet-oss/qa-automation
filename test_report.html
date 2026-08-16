@@ -41,17 +41,17 @@
 <body>
     <div class="header">
         <h1>🧪 Test Execution Report</h1>
-        <p>Application: Login App &nbsp;|&nbsp; Executed: 06 July 2026, 06:35 PM &nbsp;|&nbsp; Tool: Playwright + Python</p>
+        <p>Application: Login App &nbsp;|&nbsp; Executed: 16 August 2026, 08:53 PM &nbsp;|&nbsp; Tool: Playwright + Python</p>
     </div>
- 
+
     <div class="summary">
         <div class="card total"><div class="number">10</div><div class="label">Total</div></div>
-        <div class="card pass"><div class="number">8</div><div class="label">Passed</div></div>
-        <div class="card fail"><div class="number">2</div><div class="label">Failed</div></div>
+        <div class="card pass"><div class="number">10</div><div class="label">Passed</div></div>
+        <div class="card fail"><div class="number">0</div><div class="label">Failed</div></div>
         <div class="card skipped"><div class="number">0</div><div class="label">Skipped</div></div>
-        <div class="card rate"><div class="number">80%</div><div class="label">Pass Rate</div></div>
+        <div class="card rate"><div class="number">100%</div><div class="label">Pass Rate</div></div>
     </div>
- 
+
     <table>
         <thead>
             <tr>
@@ -107,9 +107,9 @@
             <td><strong>TC-LOGIN-005</strong></td>
             <td>Log in with a locked account after multiple failed attempts</td>
             <td>Login is denied and an error message 'Account is locked. Try again later.' is shown.</td>
-            <td>Invalid username or password. Please try again.</td>
+            <td>Account is locked. Try again later.</td>
             <td><span class="priority low">Low</span></td>
-            <td><span class="badge fail">FAIL</span></td>
+            <td><span class="badge pass">PASS</span></td>
         </tr>
         <tr>
             <td>6</td>
@@ -152,13 +152,13 @@
             <td><strong>TC-FORGOT-005</strong></td>
             <td>Reset password using an expired reset link</td>
             <td>Reset fails and an error message 'This reset link has expired' is shown.</td>
-            <td>Expired reset link flow is not implemented in login_app.html.</td>
+            <td>This reset link has expired. Please request a new one.</td>
             <td><span class="priority low">Low</span></td>
-            <td><span class="badge fail">FAIL</span></td>
+            <td><span class="badge pass">PASS</span></td>
         </tr>
         </tbody>
     </table>
- 
+
     <div class="footer">
         <p>Generated automatically by QA Automation Suite &copy; 2026</p>
     </div>

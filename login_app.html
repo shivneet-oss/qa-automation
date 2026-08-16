@@ -80,6 +80,11 @@
       background: #1d4ed8;
     }
 
+    button:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+
     .link-button {
       display: inline-block;
       margin-top: 16px;
@@ -127,6 +132,8 @@
 </head>
 <body>
   <div class="login-card">
+
+    <!-- LOGIN VIEW -->
     <div id="login-view">
       <h1>Login</h1>
       <p class="subtitle">Enter your credentials to continue.</p>
@@ -138,13 +145,14 @@
         <label for="password">Password</label>
         <input type="password" id="password" name="password" autocomplete="current-password" required>
 
-        <button type="submit">Login</button>
+        <button type="submit" id="login-button">Login</button>
       </form>
 
       <button type="button" class="link-button" id="show-forgot-password">Forgot password?</button>
       <div id="login-message" class="message" role="alert"></div>
     </div>
 
+    <!-- FORGOT PASSWORD VIEW -->
     <div id="forgot-password-view" class="hidden">
       <h1>Forgot Password</h1>
       <p class="subtitle">Enter your email address and we will send you a reset link.</p>
@@ -159,18 +167,37 @@
       <button type="button" class="link-button" id="show-login">Back to login</button>
       <div id="forgot-message" class="message" role="alert"></div>
     </div>
+
+    <!-- EXPIRED RESET LINK VIEW -->
+    <div id="expired-reset-view" class="hidden">
+      <h1>Link Expired</h1>
+      <p class="subtitle">This password reset link has expired.</p>
+      <div id="expired-message" class="message error" role="alert">
+        This reset link has expired. Please request a new one.
+      </div>
+      <button type="button" class="link-button" id="show-login-from-expired" style="margin-top:16px;">
+        Back to login
+      </button>
+    </div>
+
   </div>
 
   <script>
     const VALID_USERNAME = "admin";
     const VALID_PASSWORD = "test123";
+    const MAX_FAILED_ATTEMPTS = 3;
+
+    let failedAttempts = 0;
+    let accountLocked = false;
 
     const loginView = document.getElementById("login-view");
     const forgotPasswordView = document.getElementById("forgot-password-view");
+    const expiredResetView = document.getElementById("expired-reset-view");
     const loginForm = document.getElementById("login-form");
     const forgotPasswordForm = document.getElementById("forgot-password-form");
     const loginMessage = document.getElementById("login-message");
     const forgotMessage = document.getElementById("forgot-message");
+    const loginButton = document.getElementById("login-button");
 
     function showMessage(element, text, type) {
       element.className = "message";
@@ -187,23 +214,45 @@
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
-    document.getElementById("show-forgot-password").addEventListener("click", function () {
+    function showView(viewToShow) {
       loginView.classList.add("hidden");
-      forgotPasswordView.classList.remove("hidden");
+      forgotPasswordView.classList.add("hidden");
+      expiredResetView.classList.add("hidden");
+      viewToShow.classList.remove("hidden");
+    }
+
+    // Check URL for expired reset token
+    window.addEventListener("load", function () {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("reset") === "expired") {
+        showView(expiredResetView);
+      }
+    });
+
+    document.getElementById("show-forgot-password").addEventListener("click", function () {
+      showView(forgotPasswordView);
       clearMessage(loginMessage);
       clearMessage(forgotMessage);
     });
 
     document.getElementById("show-login").addEventListener("click", function () {
-      forgotPasswordView.classList.add("hidden");
-      loginView.classList.remove("hidden");
+      showView(loginView);
       clearMessage(loginMessage);
       clearMessage(forgotMessage);
       forgotPasswordForm.reset();
     });
 
+    document.getElementById("show-login-from-expired").addEventListener("click", function () {
+      showView(loginView);
+    });
+
     loginForm.addEventListener("submit", function (event) {
       event.preventDefault();
+
+      if (accountLocked) {
+        showMessage(loginMessage, "Account is locked. Try again later.", "error");
+        return;
+      }
 
       const username = document.getElementById("username").value.trim();
       const password = document.getElementById("password").value;
@@ -211,13 +260,22 @@
       clearMessage(loginMessage);
 
       if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+        failedAttempts = 0;
         showMessage(loginMessage, "Login successful! Welcome, admin.", "success");
       } else {
-        showMessage(
-          loginMessage,
-          "Invalid username or password. Please try again.",
-          "error"
-        );
+        failedAttempts++;
+
+        if (failedAttempts >= MAX_FAILED_ATTEMPTS) {
+          accountLocked = true;
+          loginButton.disabled = true;
+          showMessage(loginMessage, "Account is locked. Try again later.", "error");
+        } else {
+          showMessage(
+            loginMessage,
+            "Invalid username or password. Please try again.",
+            "error"
+          );
+        }
       }
     });
 
